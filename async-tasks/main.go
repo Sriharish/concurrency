@@ -7,30 +7,39 @@ import (
 
 func main() {
 	now := time.Now()
-	c := make()
-	go task1()
-	go task2()
-	go task3()
-	go task4()
+	done := make(chan struct{})
+
+	go task1(done)
+	go task2(done)
+	go task3(done)
+	go task4(done)
+
+	for i := 0; i < 4; i++ {
+		<-done
+	}
 	fmt.Printf("Elapsed: %v", time.Since(now))
 }
 
-func task1() {
+func task1(done chan struct{}) {
 	time.Sleep(100 * time.Millisecond)
 	fmt.Println("task1")
+	done <- struct{}{}
 }
 
-func task2() {
+func task2(done chan struct{}) {
 	time.Sleep(200 * time.Millisecond)
 	fmt.Println("task2")
+	done <- struct{}{}
 }
 
-func task3() {
+func task3(done chan struct{}) {
 	time.Sleep(120 * time.Millisecond)
 	fmt.Println("task3")
+	done <- struct{}{}
 }
 
-func task4() {
+func task4(done chan struct{}) {
 	time.Sleep(300 * time.Millisecond)
 	fmt.Println("task4")
+	done <- struct{}{}
 }
