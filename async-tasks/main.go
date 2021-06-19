@@ -7,7 +7,7 @@ import (
 
 func main() {
 	now := time.Now()
-
+	c := make()
 	go task1()
 	go task2()
 	go task3()
